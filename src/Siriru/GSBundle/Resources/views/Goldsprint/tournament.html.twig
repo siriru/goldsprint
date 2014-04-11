@@ -1,0 +1,10 @@
+{% set step = 0 %}
+<ul>
+    {% for run in entity.type.runs %}
+        {% if run.step != step %}
+            Round {{ step + 1}}
+            {% set step = run.step %}
+        {% endif %}
+        <li><a href="{{ path('run_edit', {'id': run.id}) }}"> {{ run }} &rarr; {{ run.winner }}</a></li>
+    {% endfor %}
+</ul>

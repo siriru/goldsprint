@@ -1,0 +1,5 @@
+siriru_gs:
+    resource: "@SiriruGSBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

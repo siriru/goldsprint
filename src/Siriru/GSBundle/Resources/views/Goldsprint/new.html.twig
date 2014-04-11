@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+{% form_theme form with 'SiriruGSBundle:Form:fields.html.twig' %}
+
+{% block body -%}
+    <h1>Goldsprint creation</h1>
+
+    {{ form(form) }}
+
+    <a href="{{ path('goldsprint') }}">
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to the list
+    </a>
+{% endblock %}

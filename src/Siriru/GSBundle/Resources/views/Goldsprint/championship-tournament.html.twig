@@ -1,0 +1,26 @@
+{% set step = 0 %}
+<table>
+    {% for run in entity.type.runs if run.step <= entity.type.nbChampionshipRound %}
+        {% if run.step != step %}
+            <tr>
+                <td colspan="3" style="text-align: center;">Round {{ step + 1}}</td>
+            </tr>
+            {% set step = run.step %}
+        {% endif %}
+        <tr>
+            <td>{{ run.time1 | gstime }} &larr;&nbsp;</td>
+            <td style="text-align: center;"><a href="{{ path('run_edit', {'id': run.id}) }}">{{ run }}</a></td>
+            <td>&nbsp;&rarr; {{ run.time2 | gstime }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<ul>
+    {% for run in entity.type.runs if run.step > entity.type.nbChampionshipRound%}
+        {% if run.step != step %}
+            Round {{ step + 1}}
+            {% set step = run.step %}
+        {% endif %}
+        <li><a href="{{ path('run_edit', {'id': run.id}) }}"> {{ run }} &rarr; {{ run.winner }}</a></li>
+    {% endfor %}
+</ul>

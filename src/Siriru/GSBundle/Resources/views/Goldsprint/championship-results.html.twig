@@ -1,0 +1,20 @@
+<table class="table table-bordered table-condensed table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Player</th>
+        {% for i in 1..entity.type.step %}
+            <th>Round {{ i }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for result in entity.type.results %}
+    <tr>
+        <td>{{ result.object }}</td>
+        {% for time in result.time %}
+            <td>{{ time | gstime }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

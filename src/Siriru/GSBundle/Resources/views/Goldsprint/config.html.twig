@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+    <h1>Goldsprint / {{ entity.location }} / {{ entity.date|date('Y-m-d H:i') }}</h1>
+
+    <table class="record_properties">
+        <tbody>
+        <tr>
+            <th>Name</th>
+            <td>{{ entity.name }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ entity.description }}</td>
+        </tr>
+        <tr>
+            <th>Created</th>
+            <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'tournament' }) }}" class="btn btn-warning btn-sm pull-right" role="button">
+        <span class="glyphicon glyphicon-ok"></span> Start Tournament
+    </a>
+    <a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'championship' }) }}" class="btn btn-warning btn-sm pull-right" role="button">
+        <span class="glyphicon glyphicon-ok"></span> Start Championship
+    </a>
+    <a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'championship-tournament' }) }}" class="btn btn-warning btn-sm pull-right" role="button">
+        <span class="glyphicon glyphicon-ok"></span> Start Championship / Tournament
+    </a>
+{% endblock %}

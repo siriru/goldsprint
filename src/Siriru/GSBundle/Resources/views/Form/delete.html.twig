@@ -1,0 +1,23 @@
+{% use "form_div_layout.html.twig" %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <button class="btn btn-sm btn-danger" type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+            <span class="glyphicon glyphicon-trash"></span> {{ label|trans({}, translation_domain) }}
+        </button>
+    {% endspaceless %}
+{% endblock button_widget %}
+
+{% block button_row %}
+    {% spaceless %}
+        <tr>
+            <td></td>
+            <td>
+                {{ form_widget(form) }}
+            </td>
+        </tr>
+    {% endspaceless %}
+{% endblock button_row %}

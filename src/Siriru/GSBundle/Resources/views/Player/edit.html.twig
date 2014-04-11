@@ -1,0 +1,12 @@
+{% extends '::base.html.twig' %}
+{% form_theme edit_form with 'SiriruGSBundle:Form:fields.html.twig' %}
+{% form_theme delete_form with 'SiriruGSBundle:Form:delete.html.twig' %}
+
+{% block body -%}
+    <h1>Player edit {{ form(delete_form) }}</h1>
+    {{ form(edit_form) }}
+
+    <a href="{{ path('player') }}">
+        <span class="glyphicon glyphicon-arrow-left"></span> Back to the list
+    </a>
+{% endblock %}

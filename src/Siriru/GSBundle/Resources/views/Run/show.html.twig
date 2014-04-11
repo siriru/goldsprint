@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Run {{ entity }}</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Step</th>
+                <td>{{ entity.step }}</td>
+            </tr>
+            <tr>
+                <th>{{ entity.player1 }}</th>
+                <td>{{ entity.time1 }}</td>
+            </tr>
+            <tr>
+                <th>{% if entity.player2 %}{{ entity.player2 }}{% else %}Ghost{% endif %}</th>
+                <td>{{ entity.time2 }}</td>
+            </tr>
+            <tr>
+                <th>Winner</th>
+                <td>{{ entity.winner }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('goldsprint_show', { 'id': entity.type.goldsprint.id }) }}">
+            Back to the goldsprint
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('run_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+</ul>
+{% endblock %}

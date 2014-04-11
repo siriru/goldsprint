@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Run edit</h1>
+
+    {{ form(edit_form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('goldsprint_show', { 'id': entity.type.goldsprint.id }) }}">
+            Back to the goldsprint
+        </a>
+    </li>
+</ul>
+{% endblock %}

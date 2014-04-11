@@ -1,0 +1,11 @@
+services:
+    twig.extension.siriru:
+        class: Siriru\GSBundle\Twig\Extension\GSTwigExtension
+        tags:
+            - { name: twig.extension }
+
+    siriru.type.gstime:
+        class: Siriru\GSBundle\Form\GSTimeType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: gs_time }

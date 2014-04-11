@@ -1,0 +1,63 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+    <h1>Goldsprint / {{ entity.location }} / {{ entity.date|date('Y-m-d H:i') }}</h1>
+
+    <ul class="nav nav-tabs">
+        <li><a href="#players" data-toggle="tab">Players</a></li>
+        <li class="active"><a href="#goldsprint" data-toggle="tab">Goldsprint</a></li>
+        <li><a href="#results" data-toggle="tab">Results</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane" id="players">
+            {% if entity.players | length != 0 %}
+                <table class="table table-bordered table-condensed table-striped table-hover" style="margin: 0;">
+                    <tr>
+                        <th>Name</th>
+                        <th>City</th>
+                    </tr>
+                    {% for player in entity.players %}
+                        <tr>
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.city }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                Add players to start the Goldsprint
+            {% endif %}
+            {% if entity.type.step == 1 %}
+                <a href="{{ path('goldsprint_new_players', { 'id': entity.id }) }}" class="btn btn-warning btn-sm pull-right" role="button">
+                    <span class="glyphicon glyphicon-plus"></span> Add players
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="tab-pane active" id="goldsprint">
+            {% if entity.started %}
+                {% if entity.type.name == 'tournament' %}
+                    {{ include('SiriruGSBundle:Goldsprint:tournament.html.twig') }}
+                {% elseif entity.type.name == 'championship' %}
+                    {{ include('SiriruGSBundle:Goldsprint:championship.html.twig') }}
+                {% elseif entity.type.name == 'championship-tournament' %}
+                    {{ include('SiriruGSBundle:Goldsprint:championship-tournament.html.twig') }}
+                {% endif %}
+
+                {% if entity.finished == false and entity.players | length != 0 %}
+                    <a href="{{ path('goldsprint_next_step', { 'id': entity.id }) }}" class="btn btn-warning btn-sm pull-right" role="button">Next step</a>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="tab-pane" id="results">
+            {% if entity.finished %}
+                {{ include('SiriruGSBundle:Goldsprint:'~entity.type.name~'-results.html.twig') }}
+            {% endif %}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

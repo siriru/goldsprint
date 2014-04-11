@@ -1,0 +1,5 @@
+<ul>
+{% for key, player in entity.type.results %}
+    <li>{{ entity.type.results|length - key }} - {{ player }}</li>
+{% endfor %}
+</ul>

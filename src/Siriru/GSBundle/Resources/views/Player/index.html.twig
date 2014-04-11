@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>Player list</h1>
+
+    <table class="table table-bordered table-responsive table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.city }}</td>
+                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.enabled %}<span class="label label-success">Yes</span>{% else %}<span class="label label-danger">No</span>{% endif %}</td>
+                <td>
+                <ul class="table-action">
+                    <li>
+                        <a href="{{ path('player_show', { 'id': entity.id }) }}">
+                            <button type="button" class="btn btn-warning btn-xs">
+                                <span class="glyphicon glyphicon-search"></span> Show
+                            </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('player_edit', { 'id': entity.id }) }}">
+                            <button type="button" class="btn btn-warning btn-xs">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('player_new') }}" class="btn btn-primary btn-sm pull-right" role="button">
+        <span class="glyphicon glyphicon-plus"></span> New Player
+    </a>
+{% endblock %}

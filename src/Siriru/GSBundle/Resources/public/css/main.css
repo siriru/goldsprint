@@ -1,0 +1,15 @@
+body {
+    padding-top: 50px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.table-action li {
+    float: left;
+}
+
+.table-action li + li {
+    padding-left: 10px;
+}
