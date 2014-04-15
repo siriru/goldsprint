@@ -1,0 +1,14 @@
+<table class="table table-bordered table-hover table-condensed" style="width: 40%; margin: 0 auto;">
+    {% for key, player in entity.type.results %}
+        <tr>
+            <td style="text-align: center;">{{ loop.index }}</td>
+            <td style="text-align: center;">
+                {% if loop.index == 1 %}{{ include('SiriruGSBundle:Utility:first.html.twig') }}
+                {% elseif loop.index == 2 %}{{ include('SiriruGSBundle:Utility:second.html.twig') }}
+                {% elseif loop.index == 3 %}{{ include('SiriruGSBundle:Utility:third.html.twig') }}
+                {% endif %}
+                {{ player }}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

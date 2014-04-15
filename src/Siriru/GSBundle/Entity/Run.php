@@ -56,8 +56,6 @@ class Run
     {
         $this->player1 = $player1;
         $this->player2 = $player2;
-        $this->time1 = 0;
-        $this->time2 = 0;
     }
 
     /**
@@ -193,11 +191,11 @@ class Run
     public function getWinner()
     {
         if($this->time1 != null and $this->time2 != null) {
-            if($this->time1 == $this->time2) return false;
+            if($this->time1 == $this->time2) return null;
             elseif($this->time1 < $this->time2) return $this->player1;
             else return $this->player2;
         }
-        else return false;
+        else return null;
     }
 
     /**
@@ -236,7 +234,7 @@ class Run
             if($winner == $this->player1) return $this->player2;
             else return $this->player1;
         }
-        else return false;
+        else return null;
     }
 
     public function getWinnerTime()

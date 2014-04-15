@@ -2,9 +2,9 @@
 
 {% block body -%}
 
-    <h1>Goldsprint / {{ entity.location }} / {{ entity.date|date('Y-m-d H:i') }}</h1>
+    <h1>Goldsprint {{ entity.location }} <small>{{ entity.date|date('l, F jS h:iA') }}</small></h1>
 
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" style="margin-bottom: 30px">
         <li><a href="#players" data-toggle="tab">Players</a></li>
         <li class="active"><a href="#goldsprint" data-toggle="tab">Goldsprint</a></li>
         <li><a href="#results" data-toggle="tab">Results</a></li>
@@ -13,7 +13,7 @@
     <div class="tab-content">
         <div class="tab-pane" id="players">
             {% if entity.players | length != 0 %}
-                <table class="table table-bordered table-condensed table-striped table-hover" style="margin: 0;">
+                <table class="table table-bordered table-condensed table-hover" style="margin: 0;">
                     <tr>
                         <th>Name</th>
                         <th>City</th>
@@ -50,6 +50,7 @@
                 {% endif %}
             {% endif %}
         </div>
+
         <div class="tab-pane" id="results">
             {% if entity.finished %}
                 {{ include('SiriruGSBundle:Goldsprint:'~entity.type.name~'-results.html.twig') }}

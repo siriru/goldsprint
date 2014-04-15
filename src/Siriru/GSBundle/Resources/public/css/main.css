@@ -2,6 +2,10 @@ body {
     padding-top: 50px;
 }
 
+h1 {
+    margin: 30px 0 !important;
+}
+
 li {
     list-style-type: none;
 }
@@ -12,4 +16,9 @@ li {
 
 .table-action li + li {
     padding-left: 10px;
+}
+
+.tab-pane {
+    margin: 0 auto;
+    width: 90%;
 }

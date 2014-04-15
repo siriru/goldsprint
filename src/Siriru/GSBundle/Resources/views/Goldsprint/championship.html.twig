@@ -8,9 +8,9 @@
             {% set step = run.step %}
         {% endif %}
         <tr>
-            <td>{{ run.time1 | gstime }} &larr;&nbsp;</td>
+            <td style="text-align: right;">{{ run.time1 | gstime }} &larr;&nbsp;</td>
             <td style="text-align: center;"><a href="{{ path('run_edit', {'id': run.id}) }}">{{ run }}</a></td>
-            <td>&nbsp;&rarr; {{ run.time2 | gstime }}</td>
+            <td style="text-align: left;">&nbsp;&rarr; {{ run.time2 | gstime }}</td>
         </tr>
     {% endfor %}
 </table>

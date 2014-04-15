@@ -31,7 +31,7 @@ class GSTimeToNumberTransformer implements DataTransformerInterface
     public function transform($time)
     {
         if (null === $time) {
-            return "00:00:00";
+            return "";
         }
 
         return Utility::separateFloat($time);

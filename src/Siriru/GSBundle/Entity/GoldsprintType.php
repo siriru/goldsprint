@@ -165,4 +165,46 @@ abstract class GoldsprintType
     {
         return $this->last_step;
     }
+
+    protected function createRound($players)
+    {
+        shuffle($players);
+        $count = count($players)/2;
+        for($i=0;$i<$count;$i++) {
+            $this->createRun(array_pop($players), array_pop($players));
+        }
+        if(count($players) > 0) {
+            $this->createRun(array_pop($players));
+        }
+    }
+
+    protected function createRun(Player $p1, Player $p2=null)
+    {
+        $run = new Run($p1, $p2);
+        $run->setStep($this->step);
+        $run->setType($this);
+        $this->addRun($run);
+    }
+
+    protected function getRunsAtStep($step)
+    {
+        $runs = array();
+        foreach($this->getRuns() as $run) {
+            if($run->getStep() == $step) $runs[] = $run;
+        }
+        return $runs;
+    }
+
+    public function formatForTwig()
+    {
+        $results = array();
+        for($step=1;$step<=$this->last_step;$step++){
+            $results[$step] = array();
+            foreach($this->getRunsAtStep($step) as $run) {
+                $results[$step][] = $run;
+            }
+        }
+
+        return $results;
+    }
 }

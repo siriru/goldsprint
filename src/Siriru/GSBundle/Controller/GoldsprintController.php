@@ -120,7 +120,7 @@ class GoldsprintController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Goldsprint entity.');
         }
-        if($entity->getStarted()) return $this->render('SiriruGSBundle:Goldsprint:show.html.twig', array('entity' => $entity));
+        if($entity->getStarted()) return $this->render('SiriruGSBundle:Goldsprint:show.html.twig', array('entity' => $entity, 'formated_gs' => $entity->getType()->formatForTwig()));
         else return $this->render('SiriruGSBundle:Goldsprint:config.html.twig', array('entity' => $entity));
     }
 
@@ -366,6 +366,6 @@ class GoldsprintController extends Controller
 
         }
 
-        else throw $this->createNotFoundException('All runs must have a winner !');
+        else throw $this->createNotFoundException('All runs must be finished !');
     }
 }

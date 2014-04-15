@@ -127,8 +127,15 @@ class ChampionshipTournament extends GoldsprintType
 
     public function isStepOver()
     {
-        foreach($this->getRuns() as $run) {
-            if($run->getStep() == $this->step and $run->getTime1() === null or $run->getStep() == $this->step and $run->getTime2() === null) return true;
+        if($this->step <= $this->nb_championship_round) {
+            foreach($this->getRunsAtStep($this->step) as $run) {
+                if($run->getTime1() === null or $run->getTime2() === null) return false;
+            }
+        }
+        else {
+            foreach($this->getRunsAtStep($this->step) as $run) {
+                if($run->getWinner() === null) return false;
+            }
         }
         return true;
     }
@@ -179,50 +186,60 @@ class ChampionshipTournament extends GoldsprintType
             $times1 = $player1['time']; usort($times1, array($this, 'sortTime'));
             $times2 = $player2['time']; usort($times2, array($this, 'sortTime'));
 
-            if ($times1[0] == $times2[0]) return 0;
-            return ($times1[0] > $times2[0]) ? 1 : -1;
+            for($i=0;$i<count($times1);$i++) {
+                if($times1[$i] !== $times2[$i]) return ($times1[$i] > $times2[$i]) ? 1 : -1;
+                elseif($times1[$i] === null) return 1;
+                elseif($times2[$i] === null) return -1;
+            }
+            return 0;
         });
         return $results;
     }
 
     private function sortTime($time1, $time2)
     {
-        if($time1 == $time2) return 0;
-        if($time1 == null) return 1;
-        if($time2 == null) return -1;
+        if($time1 === $time2) return 0;
+        if($time1 === null) return 1;
+        if($time2 === null) return -1;
         return ($time1 > $time2) ? 1 : -1;
+    }
+
+    public function getTournamentResults()
+    {
+        $results = array();
+        $step = $this->nb_championship_round + 1;
+        while($step <= $this->last_step) {
+            $temp = array();
+            foreach($this->getRunsAtStep($step) as $run) {
+                $temp[] = $run;
+            }
+            usort($temp, function($run1, $run2) {
+                $time1 = $run1->getLooserTime();
+                $time2 = $run2->getLooserTime();
+                if ($time1 == $time2) {
+                    return 0;
+                }
+                return ($time1 > $time2) ? -1 : 1;
+            });
+
+            foreach($temp as $run) {
+                $results[] = $run->getLooser();
+                if($step >= $this->last_step - 1) $results[] = $run->getWinner();
+            }
+            $step++;
+            if($step == $this->last_step - 2) $step++;
+        }
+
+        return array_reverse($results);
     }
 
     public function getResults()
     {
-    }
-
-    private function createRound($players)
-    {
-        shuffle($players);
-        $count = count($players)/2;
-        for($i=0;$i<$count;$i++) {
-            $this->createRun(array_pop($players), array_pop($players));
+        $results = $this->getTournamentResults();
+        $end_of_championship = array_slice($this->getChampionshipResults(), $this->nb_qualified_player, null, true);
+        foreach($end_of_championship as $result) {
+            $results[] = $result['object'];
         }
-        if(count($players) > 0) {
-            $this->createRun(array_pop($players));
-        }
-    }
-
-    private function createRun(Player $p1, Player $p2=null)
-    {
-        $run = new Run($p1, $p2);
-        $run->setStep($this->step);
-        $run->setType($this);
-        $this->addRun($run);
-    }
-
-    private function getRunsAtStep($step)
-    {
-        $runs = array();
-        foreach($this->getRuns() as $run) {
-            if($run->getStep() == $step) $runs[] = $run;
-        }
-        return $runs;
+        return $results;
     }
 }

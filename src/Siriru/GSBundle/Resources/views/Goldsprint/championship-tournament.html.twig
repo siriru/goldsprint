@@ -1,26 +1,14 @@
-{% set step = 0 %}
-<table>
-    {% for run in entity.type.runs if run.step <= entity.type.nbChampionshipRound %}
-        {% if run.step != step %}
-            <tr>
-                <td colspan="3" style="text-align: center;">Round {{ step + 1}}</td>
-            </tr>
-            {% set step = run.step %}
-        {% endif %}
-        <tr>
-            <td>{{ run.time1 | gstime }} &larr;&nbsp;</td>
-            <td style="text-align: center;"><a href="{{ path('run_edit', {'id': run.id}) }}">{{ run }}</a></td>
-            <td>&nbsp;&rarr; {{ run.time2 | gstime }}</td>
-        </tr>
-    {% endfor %}
-</table>
+{% for step, runs in formated_gs %}
 
-<ul>
-    {% for run in entity.type.runs if run.step > entity.type.nbChampionshipRound%}
-        {% if run.step != step %}
-            Round {{ step + 1}}
-            {% set step = run.step %}
-        {% endif %}
-        <li><a href="{{ path('run_edit', {'id': run.id}) }}"> {{ run }} &rarr; {{ run.winner }}</a></li>
-    {% endfor %}
-</ul>
+    <h4>Round {{ step }} : {% if step <= entity.type.nbChampionshipRound %}<small>Championship</small>{% elseif step > entity.type.nbChampionshipRound %}<small>Tournament</small>{% endif %}</h4>
+    <table class="table table-bordered table-condensed table-hover">
+        {% for run in runs %}
+            <tr>
+                <td style="text-align: right; width: 20%;">{{ run.time1 | gstime }}</td>
+                <td style="text-align: center; width: 30%;">{% if run.winner == run.player1 %}{{ include('SiriruGSBundle:Utility:winner.html.twig') }}{% endif %} <a href="{{ path('run_edit', {'id': run.id}) }}">{{ run.player1 }}</a></td>
+                <td style="text-align: center; width: 30%;"><a href="{{ path('run_edit', {'id': run.id}) }}">{{ run.player2 }}</a>{% if run.winner == run.player2 %} {{ include('SiriruGSBundle:Utility:winner.html.twig') }}{% endif %}</td>
+                <td style="text-align: left; width: 20%;">{{ run.time2 | gstime }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endfor %}

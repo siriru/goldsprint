@@ -56,8 +56,8 @@ class Championship extends GoldsprintType
 
     public function isStepOver()
     {
-        foreach($this->getRuns() as $run) {
-            if($run->getStep() == $this->step and $run->getTime1() === null or $run->getStep() == $this->step and $run->getTime2() === null) return true;
+        foreach($this->getRunsAtStep($this->step) as $run) {
+            if($run->getTime1() === null or $run->getTime2() === null) return false;
         }
         return true;
     }
@@ -110,34 +110,5 @@ class Championship extends GoldsprintType
         if($time1 == null) return 1;
         if($time2 == null) return -1;
         return ($time1 > $time2) ? 1 : -1;
-    }
-
-    private function createRound($players)
-    {
-        shuffle($players);
-        $count = count($players)/2;
-        for($i=0;$i<$count;$i++) {
-            $this->createRun(array_pop($players), array_pop($players));
-        }
-        if(count($players) > 0) {
-            $this->createRun(array_pop($players));
-        }
-    }
-
-    private function createRun(Player $p1, Player $p2=null)
-    {
-        $run = new Run($p1, $p2);
-        $run->setStep($this->step);
-        $run->setType($this);
-        $this->addRun($run);
-    }
-
-    private function getRunsAtStep($step)
-    {
-        $runs = array();
-        foreach($this->getRuns() as $run) {
-            if($run->getStep() == $step) $runs[] = $run;
-        }
-        return $runs;
     }
 }

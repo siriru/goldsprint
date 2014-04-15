@@ -9,11 +9,10 @@
                 <th>Name</th>
                 <th>Date</th>
                 <th>Location</th>
-                <th>Description</th>
                 <th>Created</th>
                 <th>Started</th>
                 <th>Finished</th>
-                <th>Type</th>
+                <th width="200">Type</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,7 +22,6 @@
                 <td>{{ entity.name }}</td>
                 <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.location }}</td>
-                <td>{{ entity.description }}</td>
                 <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{% if entity.started %}<span class="label label-success">Yes</span>{% else %}<span class="label label-danger">No</span>{% endif %}</td>
                 <td>{% if entity.finished %}<span class="label label-success">Yes</span>{% else %}<span class="label label-danger">No</span>{% endif %}</td>
