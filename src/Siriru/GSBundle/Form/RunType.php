@@ -15,13 +15,12 @@ class RunType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('time1', 'gs_time')
-            ->add('time2', 'gs_time')
             ->add('player1', 'entity', array(
                 'class' => 'SiriruGSBundle:Player',
                 'property' => 'name',
                 'expanded' => false,
-                'multiple' => false
+                'multiple' => false,
+                'required' => false
             ))
             ->add('player2', 'entity', array(
                 'class' => 'SiriruGSBundle:Player',
@@ -30,6 +29,10 @@ class RunType extends AbstractType
                 'multiple' => false,
                 'required' => false
             ))
+            ->add('time1', 'gs_time')
+            ->add('time2', 'gs_time')
+            ->add('speed1')
+            ->add('speed2')
         ;
     }
     

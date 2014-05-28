@@ -4,7 +4,55 @@
 {% block body -%}
     <h1>Player creation</h1>
 
-    {{ form(form) }}
+    <table class="table table-bordered table-striped table-fixed table-condensed" style="width: 50%;" {{ block('widget_container_attributes') }}>
+        {{ form_start(form) }}
+        {% if form.parent is empty and form_errors(form)|length > 0 %}
+            <tr>
+                <td colspan="2">
+                    {{ form_errors(form) }}
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-user"></span> {{ form_label(form.name) }}
+            </td>
+            <td>
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-map-marker"></span> {{ form_label(form.city) }}
+            </td>
+            <td>
+                {{ form_errors(form.city) }}
+                {{ form_widget(form.city) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-envelope"></span> {{ form_label(form.email) }}
+            </td>
+            <td>
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-flag"></span> {{ form_label(form.enabled) }}
+            </td>
+            <td>
+                {{ form_errors(form.enabled) }}
+                {{ form_widget(form.enabled) }}
+            </td>
+        </tr>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </table>
 
     <a href="{{ path('player') }}">
         <span class="glyphicon glyphicon-arrow-left"></span> Back to the list

@@ -14,10 +14,6 @@
         <div class="tab-pane" id="players">
             {% if entity.players | length != 0 %}
                 <table class="table table-bordered table-condensed table-hover" style="margin: 0;">
-                    <tr>
-                        <th>Name</th>
-                        <th>City</th>
-                    </tr>
                     {% for player in entity.players %}
                         <tr>
                             <td>{{ player.name }}</td>
@@ -37,16 +33,10 @@
 
         <div class="tab-pane active" id="goldsprint">
             {% if entity.started %}
-                {% if entity.type.name == 'tournament' %}
-                    {{ include('SiriruGSBundle:Goldsprint:tournament.html.twig') }}
-                {% elseif entity.type.name == 'championship' %}
-                    {{ include('SiriruGSBundle:Goldsprint:championship.html.twig') }}
-                {% elseif entity.type.name == 'championship-tournament' %}
-                    {{ include('SiriruGSBundle:Goldsprint:championship-tournament.html.twig') }}
-                {% endif %}
-
+                {{ include('SiriruGSBundle:Goldsprint:'~entity.type.name~'-rules.html.twig') }}
+                {{ include('SiriruGSBundle:Goldsprint:'~entity.type.name~'.html.twig') }}
                 {% if entity.finished == false and entity.players | length != 0 %}
-                    <a href="{{ path('goldsprint_next_step', { 'id': entity.id }) }}" class="btn btn-warning btn-sm pull-right" role="button">Next step</a>
+                    <a href="{{ path('goldsprint_next_step', { 'id': entity.id }) }}" class="btn btn-warning btn-sm pull-right" role="button">{% if entity.type.name == 'free-session' %}Stop the free session{% else %}Next step{% endif %}</a>
                 {% endif %}
             {% endif %}
         </div>
@@ -57,8 +47,6 @@
             {% endif %}
         </div>
     </div>
-
-
-
-
 {% endblock %}
+
+

@@ -4,7 +4,64 @@
 {% block body -%}
     <h1>Goldsprint creation</h1>
 
-    {{ form(form) }}
+    <table class="table table-bordered table-striped table-fixed table-condensed" style="width: 70%;" {{ block('widget_container_attributes') }}>
+        {{ form_start(form) }}
+        {% if form.parent is empty and form_errors(form)|length > 0 %}
+            <tr>
+                <td colspan="2">
+                    {{ form_errors(form) }}
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-bookmark"></span> {{ form_label(form.name) }}
+            </td>
+            <td>
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-map-marker"></span> {{ form_label(form.location) }}
+            </td>
+            <td>
+                {{ form_errors(form.location) }}
+                {{ form_widget(form.location) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-comment"></span> {{ form_label(form.description) }}
+            </td>
+            <td>
+                {{ form_errors(form.description) }}
+                {{ form_widget(form.description) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-calendar"></span> {{ form_label(form.date) }}
+            </td>
+            <td>
+                {{ form_errors(form.date) }}
+                {{ form_widget(form.date) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-user"></span> {{ form_label(form.players) }}
+            </td>
+            <td>
+                {{ form_errors(form.players) }}
+                {{ form_widget(form.players) }}
+            </td>
+        </tr>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    </table>
 
     <a href="{{ path('goldsprint') }}">
         <span class="glyphicon glyphicon-arrow-left"></span> Back to the list

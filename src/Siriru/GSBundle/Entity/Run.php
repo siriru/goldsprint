@@ -24,6 +24,7 @@ class Run
 
     /**
      * @ORM\ManyToOne(targetEntity="Siriru\GSBundle\Entity\Player")
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $player1;
 
@@ -44,6 +45,16 @@ class Run
     protected $time2;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $speed1;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $speed2;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Siriru\GSBundle\Entity\GoldsprintType", inversedBy="runs")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -52,7 +63,7 @@ class Run
     /**
      * Constructor
      */
-    public function __construct(Player $player1, Player $player2 = null)
+    public function __construct(Player $player1 = null, Player $player2 = null)
     {
         $this->player1 = $player1;
         $this->player2 = $player2;
@@ -138,6 +149,45 @@ class Run
     }
 
     /**
+     * @param float $speed1
+     * @return Run
+     */
+    public function setSpeed1($speed1)
+    {
+        $this->speed1 = $speed1;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSpeed1()
+    {
+        return $this->speed1;
+    }
+
+    /**
+     * @param float $speed2
+     * @return Run
+     */
+    public function setSpeed2($speed2)
+    {
+        $this->speed2 = $speed2;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSpeed2()
+    {
+        return $this->speed2;
+    }
+
+
+    /**
      * Set player1
      *
      * @param \Siriru\GSBundle\Entity\Player $player1
@@ -191,7 +241,11 @@ class Run
     public function getWinner()
     {
         if($this->time1 != null and $this->time2 != null) {
-            if($this->time1 == $this->time2) return null;
+            if($this->time1 == $this->time2) {
+                if($this->speed1 > $this->speed2) return $this->player1;
+                elseif($this->speed1 < $this->speed2) return $this->player2;
+                else return null;
+            }
             elseif($this->time1 < $this->time2) return $this->player1;
             else return $this->player2;
         }

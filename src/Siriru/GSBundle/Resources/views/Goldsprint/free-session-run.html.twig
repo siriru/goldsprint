@@ -1,0 +1,9 @@
+<tr>
+    <td {% if run.time1 %}data-time="{{ run.time1 }}"{% endif %}class="time" style="text-align: right; width: 20%;">{{ run.time1 | gstime }}</td>
+    <td style="text-align: center; width: 30%;">
+        {% if run.winner == run.player1 and run.player1 is not null %}{{ include('SiriruGSBundle:Utility:winner.html.twig') }}{% endif %} <a href="{{ path('run_edit', {'id': run.id}) }}">{% if run.player1 %}{{ run.player1 }}{% else %}-{% endif %}</a>
+    </td>
+    <td style="text-align: center; width: 30%;">
+        <a href="{{ path('run_edit', {'id': run.id}) }}">{% if run.player2 %}{{ run.player2 }}{% else %}-{% endif %}</a>{% if run.winner == run.player2 and run.player2 is not null %} {{ include('SiriruGSBundle:Utility:winner.html.twig') }}{% endif %}</td>
+    <td {% if run.time2 %}data-time="{{ run.time2 }}"{% endif %}class="time" style="text-align: left; width: 20%;">{{ run.time2 | gstime }}</td>
+</tr>

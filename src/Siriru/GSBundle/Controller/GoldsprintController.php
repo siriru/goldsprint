@@ -4,9 +4,10 @@ namespace Siriru\GSBundle\Controller;
 
 use Siriru\GSBundle\Entity\Championship;
 use Siriru\GSBundle\Entity\ChampionshipTournament;
-use Siriru\GSBundle\Entity\Match;
-use Siriru\GSBundle\Entity\Player;
+use Siriru\GSBundle\Entity\FreeSession;
+use Siriru\GSBundle\Entity\Run;
 use Siriru\GSBundle\Entity\Tournament;
+use Siriru\GSBundle\Form\RunType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -270,6 +271,9 @@ class GoldsprintController extends Controller
                 case "championship-tournament":
                     $type = new ChampionshipTournament();
                     break;
+                case "free-session":
+                    $type = new FreeSession();
+                    break;
                 default:
                     throw $this->createNotFoundException('Unable to start with type '.$type);
 
@@ -368,4 +372,30 @@ class GoldsprintController extends Controller
 
         else throw $this->createNotFoundException('All runs must be finished !');
     }
+
+    /**
+     * Displays a form to create a new Run entity.
+     *
+     * @Route("/{id}/new-run", name="gs_run_new")
+     * @Method("GET")
+     */
+    public function newRunAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('SiriruGSBundle:Goldsprint')->find($id);
+        if (!$entity) throw $this->createNotFoundException('Unable to find Goldsprint entity.');
+
+        $type = $entity->getType();
+        if($type->getName() == 'free-session' and $entity->getFinished() !== true) {
+            $type->newRun();
+            $em->persist($type);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('goldsprint_show', array('id' => $entity->getId())));
+        }
+
+        else throw $this->createNotFoundException('Adding a new run is not allowed here !');
+    }
+
 }

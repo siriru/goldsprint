@@ -153,29 +153,31 @@ class ChampionshipTournament extends GoldsprintType
     {
         $results = array();
         $step = 1;
-        while($step <= $this->step) {
+        //on regarde tous les runs du championnat
+        while($step <= $this->nb_championship_round) {
+            //on rempli un tableau qui contient en clé le nom du joueur, et qui contient l'objet player et tous ses temps.
             foreach($this->getRunsAtStep($step) as $run) {
                 $player1 = $run->getPlayer1();
                 $player2 = $run->getPlayer2();
                 if(!array_key_exists($player1->getName(), $results)) {
                     $results[$player1->getName()] = array(
                         'object' => $player1,
-                        'time' => array($run->getTime1() == 0 ? null : $run->getTime1())
+                        'time' => array($run->getTime1())
                     );
                 }
-                else $results[$player1->getName()]['time'][] = $run->getTime1() == 0 ? null : $run->getTime1();
+                else $results[$player1->getName()]['time'][] = $run->getTime1();
 
-                if(!array_key_exists($player2->getName(), $results)) {
-                    $results[$player2->getName()] = array(
-                        'object' => $player2,
-                        'time' => array($run->getTime2() == 0 ? null : $run->getTime2())
-                    );
+                if($player2 !== null) {
+                    if(!array_key_exists($player2->getName(), $results)) {
+                        $results[$player2->getName()] = array(
+                            'object' => $player2,
+                            'time' => array($run->getTime2())
+                        );
+                    }
+                    else $results[$player2->getName()]['time'][] = $run->getTime2();
                 }
-                else $results[$player2->getName()]['time'][] = $run->getTime2() == 0 ? null : $run->getTime2();
             }
             $step++;
-            //si on arrive à la fin du championnat on arrête
-            if($step > $this->nb_championship_round) break;
         }
         return $this->sortResults($results);
     }
@@ -235,10 +237,47 @@ class ChampionshipTournament extends GoldsprintType
 
     public function getResults()
     {
-        $results = $this->getTournamentResults();
+        $results = array();
+        $temp = $this->getTournamentResults();
         $end_of_championship = array_slice($this->getChampionshipResults(), $this->nb_qualified_player, null, true);
         foreach($end_of_championship as $result) {
-            $results[] = $result['object'];
+            $temp[] = $result['object'];
+        }
+        $best_times = $this->getBestTimes();
+        foreach($temp as $player) {
+            if(array_key_exists($player->getName(), $best_times)) {
+                $object = $player;
+                $results[$player->getName()] = array();
+                $results[$player->getName()]['object'] = $object;
+                $results[$player->getName()]['time'] = $best_times[$player->getName()];
+                if($player->getRecord() > $best_times[$player->getName()] or $player->getRecord() === null) $results[$player->getName()]['personal-record'] = true;
+                else $results[$player->getName()]['personal-record'] = false;
+                if($best_times[$player->getName()] === reset($best_times)) $results[$player->getName()]['goldsprint-record'] = true;
+                else $results[$player->getName()]['goldsprint-record'] = false;
+            }
+        }
+
+        return $results;
+    }
+
+    public function getBestTimes()
+    {
+        $results = array();
+        foreach($this->runs as $run) {
+            $results = $this->checkIfBestTime($results, $run->getPlayer1(), $run->getTime1());
+            $results = $this->checkIfBestTime($results, $run->getPlayer2(), $run->getTime2());
+        }
+        asort($results);
+        return $results;
+    }
+
+    private function checkIfBestTime($results, $player, $time)
+    {
+        if($time !== null) {
+            if(!array_key_exists($player->getName(), $results)) $results[$player->getName()] = $time;
+            else {
+                if($results[$player->getName()] > $time) $results[$player->getName()] = $time;
+            }
         }
         return $results;
     }

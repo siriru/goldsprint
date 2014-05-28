@@ -52,6 +52,11 @@ class Player
      */
     protected $enabled;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Record", mappedBy="player", cascade={"remove", "persist"})
+     */
+    protected $record;
+
     public function __construct()
     {
         $this->created = new \DateTime();
@@ -210,5 +215,21 @@ class Player
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @param mixed $record
+     */
+    public function setRecord($record)
+    {
+        $this->record = $record;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecord()
+    {
+        return $this->record;
     }
 }

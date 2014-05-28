@@ -21,13 +21,15 @@
         </tbody>
     </table>
 
-    <a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'tournament' }) }}" class="btn btn-warning btn-sm pull-right" role="button">
-        <span class="glyphicon glyphicon-ok"></span> Start Tournament
-    </a>
-    <a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'championship' }) }}" class="btn btn-warning btn-sm pull-right" role="button">
-        <span class="glyphicon glyphicon-ok"></span> Start Championship
-    </a>
-    <a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'championship-tournament' }) }}" class="btn btn-warning btn-sm pull-right" role="button">
-        <span class="glyphicon glyphicon-ok"></span> Start Championship / Tournament
-    </a>
+    <div class="btn-group pull-right">
+        <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+            Start <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'tournament' }) }}">Start Tournament</a></li>
+            <li><a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'championship' }) }}">Start Championship</a></li>
+            <li><a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'championship-tournament' }) }}">Start Championship / Tournament</a></li>
+            <li><a href="{{ path('goldsprint_start', { 'id': entity.id, 'type': 'free-session' }) }}">Start Free session</a></li>
+        </ul>
+    </div>
 {% endblock %}

@@ -5,7 +5,64 @@
 {% block body -%}
     <h1>Goldsprint edit {{ form(delete_form) }}</h1>
 
-    {{ form(edit_form) }}
+    <table class="table table-bordered table-striped table-fixed table-condensed" style="width: 70%;" {{ block('widget_container_attributes') }}>
+        {{ form_start(edit_form) }}
+        {% if edit_form.parent is empty and form_errors(edit_form)|length > 0 %}
+            <tr>
+                <td colspan="2">
+                    {{ form_errors(edit_form) }}
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-bookmark"></span> {{ form_label(edit_form.name) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.name) }}
+                {{ form_widget(edit_form.name) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-map-marker"></span> {{ form_label(edit_form.location) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.location) }}
+                {{ form_widget(edit_form.location) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-comment"></span> {{ form_label(edit_form.description) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.description) }}
+                {{ form_widget(edit_form.description) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-calendar"></span> {{ form_label(edit_form.date) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.date) }}
+                {{ form_widget(edit_form.date) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-user"></span> {{ form_label(edit_form.players) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.players) }}
+                {{ form_widget(edit_form.players) }}
+            </td>
+        </tr>
+        {{ form_rest(edit_form) }}
+        {{ form_end(edit_form) }}
+    </table>
 
     <a href="{{ path('goldsprint') }}">
         <span class="glyphicon glyphicon-arrow-left"></span> Back to the list

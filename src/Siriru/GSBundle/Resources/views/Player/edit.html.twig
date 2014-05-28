@@ -4,7 +4,55 @@
 
 {% block body -%}
     <h1>Player edit {{ form(delete_form) }}</h1>
-    {{ form(edit_form) }}
+    <table class="table table-bordered table-striped table-fixed table-condensed" style="width: 50%;" {{ block('widget_container_attributes') }}>
+        {{ form_start(edit_form) }}
+        {% if edit_form.parent is empty and form_errors(edit_form)|length > 0 %}
+            <tr>
+                <td colspan="2">
+                    {{ form_errors(edit_form) }}
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-user"></span> {{ form_label(edit_form.name) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.name) }}
+                {{ form_widget(edit_form.name) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-map-marker"></span> {{ form_label(edit_form.city) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.city) }}
+                {{ form_widget(edit_form.city) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-envelope"></span> {{ form_label(edit_form.email) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.email) }}
+                {{ form_widget(edit_form.email) }}
+            </td>
+        </tr>
+        <tr>
+            <td class="strong" width="200">
+                <span class="glyphicon glyphicon-flag"></span> {{ form_label(edit_form.enabled) }}
+            </td>
+            <td>
+                {{ form_errors(edit_form.enabled) }}
+                {{ form_widget(edit_form.enabled) }}
+            </td>
+        </tr>
+        {{ form_rest(edit_form) }}
+        {{ form_end(edit_form) }}
+    </table>
 
     <a href="{{ path('player') }}">
         <span class="glyphicon glyphicon-arrow-left"></span> Back to the list

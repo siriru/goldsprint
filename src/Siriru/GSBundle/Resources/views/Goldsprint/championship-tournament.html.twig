@@ -1,14 +1,41 @@
+{% set tournament = { '1': 'Final', '2': 'Semi-finals', '4': 'Quarter-finals', '8': 'Eighth-finals', '16': '16th-finals' } %}
 {% for step, runs in formated_gs %}
 
-    <h4>Round {{ step }} : {% if step <= entity.type.nbChampionshipRound %}<small>Championship</small>{% elseif step > entity.type.nbChampionshipRound %}<small>Tournament</small>{% endif %}</h4>
-    <table class="table table-bordered table-condensed table-hover">
+    <h4>Round {{ step }} :
+        {% if step <= entity.type.nbChampionshipRound %}
+            <small>Championship ({{ step }}/{{ entity.type.nbChampionshipRound }})</small>
+        {% elseif step > entity.type.nbChampionshipRound %}
+            <small>Tournament ({{ tournament[runs | length] }})</small>
+        {% endif %}
+    </h4>
+    <table class="table table-bordered table-condensed table-hover{% if step <= entity.type.nbChampionshipRound %} table-championship{% endif %}">
         {% for run in runs %}
-            <tr>
-                <td style="text-align: right; width: 20%;">{{ run.time1 | gstime }}</td>
-                <td style="text-align: center; width: 30%;">{% if run.winner == run.player1 %}{{ include('SiriruGSBundle:Utility:winner.html.twig') }}{% endif %} <a href="{{ path('run_edit', {'id': run.id}) }}">{{ run.player1 }}</a></td>
-                <td style="text-align: center; width: 30%;"><a href="{{ path('run_edit', {'id': run.id}) }}">{{ run.player2 }}</a>{% if run.winner == run.player2 %} {{ include('SiriruGSBundle:Utility:winner.html.twig') }}{% endif %}</td>
-                <td style="text-align: left; width: 20%;">{{ run.time2 | gstime }}</td>
-            </tr>
+            {% if step <= entity.type.nbChampionshipRound %}
+                {{ include('SiriruGSBundle:Goldsprint:championship-run.html.twig') }}
+            {% elseif step > entity.type.nbChampionshipRound %}
+                {{ include('SiriruGSBundle:Goldsprint:tournament-run.html.twig') }}
+            {% endif %}
         {% endfor %}
     </table>
 {% endfor %}
+
+<script language="JavaScript">
+    $(document).ready(function() {
+        var times = [];
+        $(".table-championship td.time").each(function() {
+            times.push($(this).attr('data-time'));
+            times.sort(function(a,b){return a-b});
+            $.unique(times);
+        });
+        var cpt = 1;
+        for(var i=0; i<times.length; i++) {
+            var standing = cpt;
+            $(".table-championship td.time[data-time=\""+times[i]+"\"]").each(function() {
+                var value = "<small><strong>("+(standing)+")</strong></small>";
+                if($(this).next().size() == 0) $(this).html($(this).text()+" "+value);
+                else $(this).html(value+" "+$(this).text());
+                cpt++;
+            });
+        }
+    });
+</script>

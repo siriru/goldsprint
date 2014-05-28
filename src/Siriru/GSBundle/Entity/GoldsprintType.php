@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 * @ORM\Table(name="goldsprint_type")
 * @ORM\InheritanceType("JOINED")
 * @ORM\DiscriminatorColumn(name="discr", type="string")
-* @ORM\DiscriminatorMap({"tournament" = "Tournament", "championship" = "Championship", "championship_tournament" = "ChampionshipTournament"})
+* @ORM\DiscriminatorMap({"tournament" = "Tournament", "championship" = "Championship", "championship_tournament" = "ChampionshipTournament", "free_session" = "FreeSession"})
 */
 
 abstract class GoldsprintType
@@ -178,7 +178,7 @@ abstract class GoldsprintType
         }
     }
 
-    protected function createRun(Player $p1, Player $p2=null)
+    protected function createRun(Player $p1=null, Player $p2=null)
     {
         $run = new Run($p1, $p2);
         $run->setStep($this->step);

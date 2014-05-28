@@ -1,0 +1,29 @@
+<h4>Runs</h4>
+<table class="table table-bordered table-condensed table-hover">
+    {% for run in entity.type.runs %}
+        {{ include('SiriruGSBundle:Goldsprint:free-session-run.html.twig') }}
+    {% endfor %}
+</table>
+
+{% if entity.finished != true %}<a href="{{ path('gs_run_new', { 'id': entity.id }) }}" class="btn btn-warning btn-sm" role="button">New run</a>{% endif %}
+
+<script language="JavaScript">
+    $(document).ready(function() {
+        var times = [];
+        $("td.time").each(function() {
+            times.push($(this).attr('data-time'));
+            times.sort(function(a,b){return a-b});
+            $.unique(times);
+        });
+        var cpt = 1;
+        for(var i=0; i<times.length; i++) {
+            var standing = cpt;
+            $("td.time[data-time=\""+times[i]+"\"]").each(function() {
+                var value = "<small><strong>("+(standing)+")</strong></small>";
+                if($(this).next().size() == 0) $(this).html($(this).text()+" "+value);
+                else $(this).html(value+" "+$(this).text());
+                cpt++;
+            });
+        }
+    });
+</script>

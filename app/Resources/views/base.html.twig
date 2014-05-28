@@ -12,6 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('bundles/sirirugs/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/sirirugs/css/font-awesome.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('bundles/sirirugs/css/main.css') }}" rel="stylesheet">
@@ -24,6 +25,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="{{ asset('bundles/sirirugs/js/jquery-2.1.0.js') }}"></script>
+    <script src="{{ asset('bundles/sirirugs/js/bootstrap.min.js') }}"></script>
 </head>
 
 <body>
@@ -41,9 +44,9 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="{{ path('player') }}">Players</a></li>
-                <li><a href="{{ path('goldsprint') }}">Events</a></li>
+                <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li><a href="{{ path('player') }}"><span class="glyphicon glyphicon-user"></span> Players</a></li>
+                <li><a href="{{ path('goldsprint') }}"><span class="glyphicon glyphicon-bookmark"></span> Events</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -54,12 +57,5 @@
 
     {% endblock %}
 </div><!-- /.container -->
-
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="{{ asset('bundles/sirirugs/js/bootstrap.min.js') }}"></script>
 </body>
 </html>

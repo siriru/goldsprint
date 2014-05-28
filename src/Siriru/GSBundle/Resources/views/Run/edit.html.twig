@@ -1,15 +1,77 @@
 {% extends '::base.html.twig' %}
+{% form_theme edit_form with 'SiriruGSBundle:Form:fields.html.twig' %}
 
 {% block body -%}
-    <h1>Run edit</h1>
+        <h1>Run edit</h1>
+        <table class="table table-bordered table-striped table-fixed table-condensed" style="width: 50%;" {{ block('widget_container_attributes') }}>
+            {{ form_start(edit_form) }}
+            {% if edit_form.parent is empty and form_errors(edit_form)|length > 0 %}
+                <tr>
+                    <td colspan="2">
+                        {{ form_errors(edit_form) }}
+                    </td>
+                </tr>
+            {% endif %}
 
-    {{ form(edit_form) }}
+            <tr>
+                <td class="strong" width="200">
+                    <span class="glyphicon glyphicon-user"></span> {{ form_label(edit_form.player1) }}
+                </td>
+                <td>
+                    {{ form_errors(edit_form.player1) }}
+                    {{ form_widget(edit_form.player1) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="strong" width="200">
+                    <span class="glyphicon glyphicon-user"></span> {{ form_label(edit_form.player2) }}
+                </td>
+                <td>
+                    {{ form_errors(edit_form.player2) }}
+                    {{ form_widget(edit_form.player2) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="strong" width="200">
+                    <span class="glyphicon glyphicon-time"></span> {{ form_label(edit_form.time1) }}
+                </td>
+                <td>
+                    {{ form_errors(edit_form.time1) }}
+                    {{ form_widget(edit_form.time1) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="strong" width="200">
+                    <span class="glyphicon glyphicon-time"></span> {{ form_label(edit_form.time2) }}
+                </td>
+                <td>
+                    {{ form_errors(edit_form.time2) }}
+                    {{ form_widget(edit_form.time2) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="strong" width="200">
+                    <span class="glyphicon glyphicon-flash"></span> {{ form_label(edit_form.speed1) }}
+                </td>
+                <td>
+                    {{ form_errors(edit_form.speed1) }}
+                    {{ form_widget(edit_form.speed1) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="strong" width="200">
+                    <span class="glyphicon glyphicon-flash"></span> {{ form_label(edit_form.speed2) }}
+                </td>
+                <td>
+                    {{ form_errors(edit_form.speed2) }}
+                    {{ form_widget(edit_form.speed2) }}
+                </td>
+            </tr>
+            {{ form_rest(edit_form) }}
+            {{ form_end(edit_form) }}
+        </table>
 
-        <ul class="record_actions">
-    <li>
         <a href="{{ path('goldsprint_show', { 'id': entity.type.goldsprint.id }) }}">
-            Back to the goldsprint
+            <span class="glyphicon glyphicon-arrow-left"></span> Back to the goldsprint
         </a>
-    </li>
-</ul>
 {% endblock %}

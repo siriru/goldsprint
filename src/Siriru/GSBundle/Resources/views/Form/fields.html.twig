@@ -37,7 +37,7 @@
 
 {% block form_widget_compound %}
     {% spaceless %}
-        <table class="table table-bordered table-striped table-fixed table-condensed" style="margin-bottom:none;" {{ block('widget_container_attributes') }}>
+        <table class="table table-bordered table-striped table-fixed table-condensed" {{ block('widget_container_attributes') }}>
             {% if form.parent is empty and errors|length > 0 %}
                 <tr>
                     <td colspan="2">
@@ -50,3 +50,11 @@
         </table>
     {% endspaceless %}
 {% endblock form_widget_compound %}
+
+{% block form_label %}
+    {{ parent() }}
+
+    {% if required %}
+        <span class="required" title="This field is required"> *</span>
+    {% endif %}
+{% endblock %}
